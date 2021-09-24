@@ -27,20 +27,27 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+
+Route::group(['middleware' => 'auth'], function (){
+    Route::get('/myGalleries/{user_id}', [GalleryController::class, 'getMyGalleries']);
+    Route::post('/create-galleries', [GalleryController::class, 'store']);
+    Route::put('/edit-galleries/{gallery}', [GalleryController::class, 'update']);
+    Route::delete('/galleries/{gallery}', [GalleryController::class, 'destroy']);
+    Route::get('/me', [AuthController::class, 'myProfile']);
+
+    Route::delete('comments/{comment}', [CommentController::class, 'destroy']);
+    Route::post('/galleries/{gallery}/comments', [CommentController::class, 'store']);
+});
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
-Route::get('/me', [AuthController::class, 'myProfile']);
 
 
 Route::get('/galleries', [GalleryController::class, 'index']);
 Route::get('/galleries/{gallery}', [GalleryController::class, 'show']);
-Route::get('/myGalleries/{user_id}', [GalleryController::class, 'getMyGalleries']);
-Route::post('/create-galleries', [GalleryController::class, 'store']);
-Route::put('/edit-galleries/{gallery}', [GalleryController::class, 'update']);
 
 
-Route::post('/galleries/{gallery}/comments', [CommentController::class, 'store']);
 
 
 

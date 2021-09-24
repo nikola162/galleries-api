@@ -125,7 +125,10 @@ class GalleryController extends Controller
      */
     public function destroy(Gallery $gallery)
     {
-        //
+        $gallery->delete();
+
+        return response()->noContent();
+
     }
 
     public function getMyGalleries($user_id) 
