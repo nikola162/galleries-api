@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\CommentController;
+
+
 
 
 
@@ -34,6 +37,10 @@ Route::get('/galleries', [GalleryController::class, 'index']);
 Route::get('/galleries/{gallery}', [GalleryController::class, 'show']);
 Route::get('/myGalleries/{user_id}', [GalleryController::class, 'getMyGalleries']);
 Route::post('/create-galleries', [GalleryController::class, 'store']);
+Route::put('/edit-galleries/{gallery}', [GalleryController::class, 'update']);
+
+
+Route::post('/galleries/{gallery}/comments', [CommentController::class, 'store']);
 
 
 

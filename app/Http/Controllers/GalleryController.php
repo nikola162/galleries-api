@@ -6,6 +6,7 @@ use App\Models\Gallery;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreGalleryRequest;
+use App\Http\Requests\UpdateGalleryRequest;
 
 class GalleryController extends Controller
 {
@@ -16,7 +17,7 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        $galleries = Gallery::with('images','user')->get();
+        $galleries = Gallery::with('images','user','comments')->paginate(10);
 
         return response()->json($galleries);
     }
@@ -63,7 +64,7 @@ class GalleryController extends Controller
      */
     public function show(Gallery $gallery)
     {
-        $gallery->load('images', 'user');
+        $gallery->load('images', 'user','comments');
 
         return response()->json($gallery);
     }
@@ -86,9 +87,29 @@ class GalleryController extends Controller
      * @param  \App\Models\Gallery  $gallery
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Gallery $gallery)
+    public function update(UpdateGalleryRequest $request, Gallery $gallery, Image $images)
     {
-        //
+        $data = $request->validated();
+
+        
+        $image = $data['Image_Url'];
+
+        
+        
+        $gallery->update($data);
+
+        $image = Image::where('gallery_id', $gallery->id)->update(array('Image_Url' => $image));
+
+
+        //$images->update($image)->where(['gallery_id'=> $gallery->id]);
+
+        //$images = Image::create(['gallery_id'=> $gallery->id,'Image_Url' => $image]);
+
+        //$images->update(['gallery_id'=> $gallery->id,'Image_Url' => $image]);
+
+        info($images);
+
+        return response()->json($gallery);
     }
 
     /**
