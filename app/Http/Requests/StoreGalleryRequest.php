@@ -27,7 +27,6 @@ class StoreGalleryRequest extends FormRequest
             'Image_Url' => 'required|string|max:255',
             'title' => 'required|string|min:2|max:255',
             'descrtiption' => 'required|string|max:1000',
-            'user_id' => 'required',
         ];
     }
 }
